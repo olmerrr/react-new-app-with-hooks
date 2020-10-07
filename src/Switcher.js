@@ -2,31 +2,33 @@ import React, {useState} from 'react';
 
 const Switcher = () => {
     const [color, setColor] = useState('white');
-    const [fontSize, setFontSize] = useState(14);
-
+    const [fontSize, setFontSize] = useState('16')
     const darkMode = () => {
         setColor('black')
     };
     const lightMode = () => {
         setColor('white')
     };
-    const fontFloor = () => {
+    const setFloorFont = () => {
         setFontSize((state) => state - 2)
     };
-    const fontUp = () => {
+    const setUpperFont = () => {
         setFontSize((state) => state + 2)
     };
+
     return (
         <div>
-            <button onClick={darkMode}>Dark mode</button>
-            <button onClick={lightMode}>Light mode</button>
-            <button onClick={fontFloor}>-</button>
-            <button onClick={fontUp}>+</button>
             <div style={{
-                padding: '10px',
-                backgroundColor: color,
-                fontSize: fontSize
-            }}>You can change background
+                textAlign: 'center', padding: '10px',
+                backgroundColor: color, fontSize: fontSize,
+                border: '2px solid red'
+            }}>
+                <p>You can change color of this area</p>
+                <button onClick={darkMode}>Dark Mode</button>
+                <button onClick={setFloorFont}>-</button>
+                <button onClick={lightMode}>Light Mode</button>
+                <button onClick={setUpperFont}>+</button>
+
             </div>
         </div>
     );
