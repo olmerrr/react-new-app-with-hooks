@@ -10,7 +10,8 @@ function App() {
             <div>
                 <button onClick={() => setValue(v => v + 1)}>+</button>
                 <button onClick={() => setVisible(false)}>hide</button>
-                <HookCounter value={value}/>
+                {/*<HookCounter value={value}/>*/}
+                <Notification/>
             </div>
         )
     }else {
@@ -18,12 +19,28 @@ function App() {
     }
 
 };
-const HookCounter = ({value}) => {
-    useEffect(() => {
-        console.log('mount');
-        return () => console.log('unmount');
+// const HookCounter = ({value}) => {
+//     useEffect(() => {
+//         console.log('mount');
+//         return () => console.log('unmount');
+//     },[]);
+//     useEffect(() => console.log('update'));
+//     return <p>{value}</p>
+// };
+const Notification = () => {
+    const [visible,setVisible] = useState(true);
+
+    useEffect( () =>{
+      const timeOut = setTimeout(()=>
+            setVisible(false),2500);
+      return () => clearTimeout(timeOut);
     },[]);
-    useEffect(() => console.log('update'));
-    return <p>{value}</p>
-};
-    export default App;
+
+    if(visible){
+        return(
+            <p>Hello</p>
+        )
+    };
+
+}
+export default App;
