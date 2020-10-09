@@ -21,13 +21,13 @@ function App() {
 
 };
 const PlanetInfo = ({id}) => {
-    let canseled = false;
+    let canceled = false;
     const [name, setName] = useState('null');
     useEffect(() =>{
         fetch(`http://swapi.dev/api/planets/${id}/`)
             .then(res => res.json())
-            .then(data =>!canseled && setName(data.name));
-    return () => canseled = true;
+            .then(data =>!canceled && setName(data.name));
+    return () => canceled = true;
     },[id])
     return <p>{id}  - {name} </p>
 }
