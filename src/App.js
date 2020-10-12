@@ -1,12 +1,12 @@
-import React, {useEffect,useState} from "react";
+import React, {useEffect, useState} from "react";
 
 function App() {
     const [value, setValue] = useState(1);
     const [visible, setVisible] = useState(true);
 
 
-    if (visible){
-        return(
+    if (visible) {
+        return (
             <div>
                 <button onClick={() => setValue(v => v + 1)}>+</button>
                 <button onClick={() => setVisible(false)}>hide</button>
@@ -15,22 +15,27 @@ function App() {
                 <PlanetInfo id = {value}/>
             </div>
         )
-    }else {
+    } else {
         return <button onClick={() => setVisible(true)}>show</button>
     }
 
 };
-const PlanetInfo = ({id}) => {
-    let canceled = false;
+const usePlanetInfo = (id) => {
+    let cancelled = false;
     const [name, setName] = useState('null');
-    useEffect(() =>{
+    useEffect(() => {
         fetch(`http://swapi.dev/api/planets/${id}/`)
-            .then(res => res.json())
-            .then(data =>!canceled && setName(data.name));
-    return () => canceled = true;
-    },[id])
-    return <p>{id}  - {name} </p>
-}
+            .then((res) => res.json())
+            .then((data) =>!cancelled && setName(data.name))
+        return () => cancelled = true;
+    },[id]);
+    return name;
+};
+const PlanetInfo = ({id}) => {
+    const name = usePlanetInfo(id);
+    return <p>{id} - {name}</p>
+};
+
 // const HookCounter = ({value}) => {
 //     useEffect(() => {
 //         console.log('mount');
