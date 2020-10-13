@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from "react";
+import React, {useEffect, useState, useCallback, useMemo} from "react";
 
 function App() {
     const [value, setValue] = useState(1);
@@ -27,13 +27,29 @@ const getPlanet = (id) => {
         .then(data => data);
 };
 const useRequest = (request) => {
-    const [dataState, setDataState] = useState(null);
+    const initialState = useMemo(()=>({
+        data: null,
+        loading: true,
+        error: null
+    }),[]);
+    const [dataState, setDataState] = useState(initialState);
+
     useEffect(() =>{
+        setDataState(initialState);
         let cancelled = false;
         request()
-            .then(data => !cancelled && setDataState(data))
+            .then(data => !cancelled && setDataState({
+                data,
+                loading: false,
+                error: null
+            }))
+            .catch(error => !cancelled && setDataState({
+                data: null,
+                loading: false,
+                error
+            }))
         return () => cancelled = true;
-    },[request]);
+    },[request, initialState]);
     return dataState;
 };
 const usePlanetInfo = (id) => {
@@ -42,8 +58,14 @@ const usePlanetInfo = (id) => {
     return useRequest(request);
 }
 const PlanetInfo = ({id}) => {
-    const data = usePlanetInfo(id);
-    return <p>{id} - {data && data.name}</p>
+    const {data, loading, error} = usePlanetInfo(id);
+    if(error){
+        return  <p>Something is wrong!</p>
+    }
+    if(loading){
+        return  <p>Loading ..</p>
+    }
+    return <p>{id} - {data.name}</p>
 };
 
 // const HookCounter = ({value}) => {
