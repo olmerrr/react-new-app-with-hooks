@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 
 function App() {
     const [value, setValue] = useState(1);
@@ -37,7 +37,8 @@ const useRequest = (request) => {
     return dataState;
 };
 const usePlanetInfo = (id) => {
-    const request = () => getPlanet(id);
+  const request = useCallback(
+      () => getPlanet(id), [id]);
     return useRequest(request);
 }
 const PlanetInfo = ({id}) => {
