@@ -20,20 +20,29 @@ function App() {
     }
 
 };
-const usePlanetInfo = (id) => {
-    let cancelled = false;
-    const [name, setName] = useState('null');
-    useEffect(() => {
-        fetch(`http://swapi.dev/api/planets/${id}/`)
-            .then((res) => res.json())
-            .then((data) =>!cancelled && setName(data.name))
-        return () => cancelled = true;
-    },[id]);
-    return name;
+
+const getPlanet = (id) => {
+    return fetch(`http://swapi.dev/api/planets/${id}/`)
+        .then((res) => res.json())
+        .then(data => data);
 };
+const useRequest = (request) => {
+    const [dataState, setDataState] = useState(null);
+    useEffect(() =>{
+        let cancelled = false;
+        request()
+            .then(data => !cancelled && setDataState(data))
+        return () => cancelled = true;
+    },[request]);
+    return dataState;
+};
+const usePlanetInfo = (id) => {
+    const request = () => getPlanet(id);
+    return useRequest(request);
+}
 const PlanetInfo = ({id}) => {
-    const name = usePlanetInfo(id);
-    return <p>{id} - {name}</p>
+    const data = usePlanetInfo(id);
+    return <p>{id} - {data && data.name}</p>
 };
 
 // const HookCounter = ({value}) => {
