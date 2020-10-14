@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
+import {Seacrh} from "./Search";
 
 export const  Navbar = () => {
     return(
@@ -10,7 +11,7 @@ export const  Navbar = () => {
                 </div>
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <NavLink exact="true" to ="/" className="nav-link">Main</NavLink>
+                        <NavLink exact to ="/" className="nav-link">Main</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink to ="/about" className="nav-link">About</NavLink>
