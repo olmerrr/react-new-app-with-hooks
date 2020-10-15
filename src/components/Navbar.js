@@ -1,11 +1,10 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import {Seacrh} from "./Search";
 
 export const  Navbar = () => {
     return(
         <div>
-            <nav className="navbar navbar-dark bg-primary navbar-expand-lg">
+            <nav className="navbar navbar-dark bg-primary navbar-expand-lg mb-3">
                 <div className="navbar-brand">
                     GitHub Search
                 </div>
